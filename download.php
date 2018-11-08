@@ -7,22 +7,26 @@ require_once "config.php";
 // edit the file in excel and remove all not needed columns and characters
 // there should be only URLs one each line
 
-if (!file_exists("./imgd.php")) {
+if (!file_exists("./imgd.php")) 
+{
     $imgdDataTemp = file_get_contents(CIMAGE_URL);
 
     $imgDataRemoteEnabled = str_replace("//'remote_allow'", "'remote_allow'", $imgdDataTemp);
     file_put_contents("imgd.php", $imgDataRemoteEnabled);
-
+    
     //unlink('imgdTemp.php');
 }
 
-if (file_exists(FILEPATH_IMAGE_URLS)) {
+if (file_exists(FILEPATH_IMAGE_URLS)) 
+{
     echo "\n\n===Starting===\n\n";
 
     $handle = fopen(FILEPATH_IMAGE_URLS, "r");
-    if ($handle) {
+    if ($handle) 
+    {
         $uploadFolder = "upload" . "-" . date("Y-m-d-H_m-i-s");
-        while (($line = fgets($handle)) !== false) {
+        while (($line = fgets($handle)) !== false) 
+        {
             $URL = preg_replace("/\r|\n/", "", $line);
             echo "URL: $URL\n";
             // remove the protocol and domain from string
@@ -56,9 +60,12 @@ if (file_exists(FILEPATH_IMAGE_URLS)) {
             // Dimensions check (calculate dimensions to make square)
             list($width, $height) = getimagesize($uploadfilepath);
             $largerSide = 0;
-            if (($width == $height) || ($width > $height)) {
+            if (($width == $height) || ($width > $height)) 
+            {
                 $largerSide = $width;
-            } else {
+            } 
+            else 
+            {
                 $largerSide = $height;
             }
 
@@ -76,9 +83,13 @@ if (file_exists(FILEPATH_IMAGE_URLS)) {
         }
 
         fclose($handle);
-    } else {
-        echo " the file could " . FILEPATH_IMAGE_URLS . " not be opened";
+    } 
+    else 
+    {
+        echo "The file could " . FILEPATH_IMAGE_URLS . " not be opened";
     }
-} else {
-    echo "the file " . FILEPATH_IMAGE_URLS . " doesn't exist";
+}
+else 
+{
+    echo "The file " . FILEPATH_IMAGE_URLS . " doesn't exist";
 }
