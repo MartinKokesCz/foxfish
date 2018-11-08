@@ -1,1 +1,4 @@
-upload/*
+upload-*
+imgd.php
+source/*
+!source/example.txt

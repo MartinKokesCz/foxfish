@@ -1,41 +1,84 @@
 <?php
 
+require_once "config.php";
+
+
+
 // edit the file in excel and remove all not needed columns and characters
 // there should be only URLs one each line
 
-echo "\n\n===Starting===\n\n";
+if (!file_exists("./imgd.php")) {
+    $imgdDataTemp = file_get_contents(CIMAGE_URL);
 
-$handle = fopen("example-small.txt", "r");
-if ($handle) {
-    while (($line = fgets($handle)) !== false) {
-        $URL = preg_replace("/\r|\n/", "", $line);
-        echo "URL: $URL\n";
-        // remove the protocol and domain from string
-        $filepath = parse_url($URL, PHP_URL_PATH);
-        echo "Filepath: $filepath\n";
+    $imgDataRemoteEnabled = str_replace("//'remote_allow'", "'remote_allow'", $imgdDataTemp);
+    file_put_contents("imgd.php", $imgDataRemoteEnabled);
 
-        // get file name only
-        $filename = basename($filepath);
-        echo "Filename: $filename\n";
+    //unlink('imgdTemp.php');
+}
 
-        // remove file name from the path
-        $folderpath = str_replace($filename, "", $filepath);
-        echo "Folderpath: $folderpath\n";
+if (file_exists(FILEPATH_IMAGE_URLS)) {
+    echo "\n\n===Starting===\n\n";
 
-        $uploadpath = __DIR__ . DIRECTORY_SEPARATOR . "upload" . $folderpath;
-        // true - recursively
-        mkdir($uploadpath, 0777, true);
-        echo "Creating folder: $uploadpath\n";
+    $handle = fopen(FILEPATH_IMAGE_URLS, "r");
+    if ($handle) {
+        $uploadFolder = "upload" . "-" . date("Y-m-d-H_m-i-s");
+        while (($line = fgets($handle)) !== false) {
+            $URL = preg_replace("/\r|\n/", "", $line);
+            echo "URL: $URL\n";
+            // remove the protocol and domain from string
+            $filepath = parse_url($URL, PHP_URL_PATH);
+            echo "Filepath: $filepath\n";
 
-        $filedata = file_get_contents($URL);
-        echo "Downloading : $URL\n";
-        $uploadfilepath = $uploadpath  . $filename;
-        echo "Uploads filepath: $uploadfilepath\n";
-        file_put_contents($uploadfilepath, $filedata);
 
-        echo "File downloaded!\n\n";
+            // get file name only
+            $filename = basename($filepath);
+            echo "Filename: $filename\n";
+
+            // remove file name from the path
+            $folderpath = str_replace($filename, "", $filepath);
+            echo "Folderpath: $folderpath\n";
+
+
+            $uploadpath = __DIR__ . DIRECTORY_SEPARATOR . $uploadFolder . $folderpath;
+            // true - recursively
+            mkdir($uploadpath, 0777, true);
+            echo "Creating folder: $uploadpath\n";
+
+            // Download image from formatted URL
+            echo "Downloading : $URL\n";
+            $filedata = file_get_contents($URL);
+
+            // Write the downloaded image to local file
+            $uploadfilepath = $uploadpath  . $filename;
+            echo "Uploads filepath: $uploadfilepath\n";
+            file_put_contents($uploadfilepath, $filedata);
+
+            // Dimensions check (calculate dimensions to make square)
+            list($width, $height) = getimagesize($uploadfilepath);
+            $largerSide = 0;
+            if (($width == $height) || ($width > $height)) {
+                $largerSide = $width;
+            } else {
+                $largerSide = $height;
+            }
+
+            echo "File downloaded!\n\n";
+
+            $localURL = "http://localhost/foxfish/" . $uploadFolder . $filepath;
+            echo $localURL;
+
+            $transformedURL = "http://localhost/foxfish/imgd.php?src=$localURL&w=$largerSide&h=$largerSide&fill-to-fit=ffffff";
+
+            $filedataTransformed = file_get_contents($transformedURL);
+            echo "Downloading transformed : $transformedURL\n";
+            $uploadfilepathTransformed = $uploadpath . "transformed-"  . $filename;
+            file_put_contents($uploadfilepathTransformed, $filedataTransformed);
+        }
+
+        fclose($handle);
+    } else {
+        echo " the file could " . FILEPATH_IMAGE_URLS . " not be opened";
     }
-
-    fclose($handle);
 } else {
+    echo "the file " . FILEPATH_IMAGE_URLS . " doesn't exist";
 }
