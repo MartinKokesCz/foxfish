@@ -11,10 +11,27 @@
 
 <body>
     <?php
+        // Filtered file from upload.
         $uploadfile = $_FILES['uploadfile'];
-        $uploadfilepath = __DIR__ . DIRECTORY_SEPARATOR . "source" . DIRECTORY_SEPARATOR . $uploadfile['name'];  
-        move_uploaded_file($uploadfile['tmp_name'], $uploadfilepath);
-
+        // Absolute path to the destination.
+        $uploadfilepath = __DIR__ . DIRECTORY_SEPARATOR . "source" . DIRECTORY_SEPARATOR . $uploadfile['name'];
+        // If file already exits, stop execution.
+        if (!file_exists($uploadfilepath)) 
+        {
+            if ($uploadfile['size'] > 524288) 
+            {
+                echo("File is too big. (over 524288 Bytes or 0.524288 Megabytes)");
+                exit(1);
+            }
+            move_uploaded_file($uploadfile['tmp_name'], $uploadfilepath);
+            echo("File successfully uploaded to remote.");
+            // TO DO volání resize skriptu
+        }
+        else
+        {
+            echo("File already exist on remote. Delete it on FTP. No web interface avaible.");
+        }
+        
     ?>
 
 </body>
