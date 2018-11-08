@@ -24,12 +24,21 @@
                 exit(1);
             }
             move_uploaded_file($uploadfile['tmp_name'], $uploadfilepath);
-            echo("File successfully uploaded to remote.");
+            ?>
+            <span class="color-whiteish">File successfully uploaded to remote.</span><br>
+            <span class="color-whiteish">Starting download and transform...</span><br>
+            <span class="color-whiteish">Kecám, ještě to nic nedělá.</span><br>
+            <?php
             // TO DO volání resize skriptu
+            // include("download.php");
         }
         else
         {
-            echo("File already exist on remote. Delete it on FTP. No web interface avaible.");
+            ?>
+            <span class="color-whiteish">File already exist on remote. Delete it on FTP. No web interface avaible.</span><br>
+            <a href="index.html" class="no-decoration">Back to the main page</a>
+
+            <?php
         }
         
     ?>

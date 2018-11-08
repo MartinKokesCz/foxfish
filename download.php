@@ -28,7 +28,7 @@ if (file_exists(FILEPATH_IMAGE_URLS))
         while (($line = fgets($handle)) !== false) 
         {
             $URL = preg_replace("/\r|\n/", "", $line);
-            echo "URL: $URL\n";
+            echo "Source image URL: $URL\n";
             // remove the protocol and domain from string
             $filepath = parse_url($URL, PHP_URL_PATH);
             echo "Filepath: $filepath\n";
@@ -49,13 +49,14 @@ if (file_exists(FILEPATH_IMAGE_URLS))
             echo "Creating folder: $uploadpath\n";
 
             // Download image from formatted URL
-            echo "Downloading : $URL\n";
+            echo "Downloading: $URL\n";
             $filedata = file_get_contents($URL);
 
             // Write the downloaded image to local file
             $uploadfilepath = $uploadpath  . $filename;
             echo "Uploads filepath: $uploadfilepath\n";
             file_put_contents($uploadfilepath, $filedata);
+            echo "File downloaded!\n";
 
             // Dimensions check (calculate dimensions to make square)
             list($width, $height) = getimagesize($uploadfilepath);
@@ -69,17 +70,17 @@ if (file_exists(FILEPATH_IMAGE_URLS))
                 $largerSide = $height;
             }
 
-            echo "File downloaded!\n\n";
+            // Resizing
 
             $localURL = "http://localhost/foxfish/" . $uploadFolder . $filepath;
-            echo $localURL;
 
             $transformedURL = "http://localhost/foxfish/imgd.php?src=$localURL&w=$largerSide&h=$largerSide&fill-to-fit=ffffff";
 
             $filedataTransformed = file_get_contents($transformedURL);
-            echo "Downloading transformed : $transformedURL\n";
-            $uploadfilepathTransformed = $uploadpath . "transformed-"  . $filename;
+            echo "Transforming: $transformedURL\n";
+            $uploadfilepathTransformed = $uploadpath . $filename;
             file_put_contents($uploadfilepathTransformed, $filedataTransformed);
+            echo "Image transformed and saved successfully!\n\n\n";
         }
 
         fclose($handle);

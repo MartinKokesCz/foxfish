@@ -1,4 +1,47 @@
-.uploadForm
-{
+body {
+    text-align: center;
+    background-color: #354054;
     font-size: 150%;
+}
+
+.color-whiteish {
+    color: rgba(255, 244, 232, 0.6);
+}
+
+.uploadForm input[type="file"] {
+    border: 1px solid #ccc;
+    display: inline-block;
+    padding: 6px 12px;
+    margin-bottom: 5%;
+    cursor: pointer;
+}
+
+.fancy-button {
+    display: inline-block;
+    padding: 15px 25px;
+    font-size: 24px;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    outline: none;
+    color: #fff;
+    background-color: #4CAF50;
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0 9px #999;
+}
+
+.fancy-button:hover {
+    background-color: #3e8e41
+}
+
+.fancy-button:active {
+    background-color: #3e8e41;
+    box-shadow: 0 5px #666;
+    transform: translateY(4px);
+}
+
+.no-decoration {
+    text-decoration: underline;
+    color: rgba(255, 244, 232, 0.6);
 }
