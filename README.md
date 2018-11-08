@@ -1,8 +1,9 @@
 # foxfish - how to use
-1) set the config.php file
-
-php download.php
+1) Properly set the values in config.php.
 
 
-## Errors
+Usage: php download.php
+
+
+## Error codes
 Error code 1: File is too big.

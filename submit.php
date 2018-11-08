@@ -37,7 +37,6 @@
             ?>
             <span class="color-whiteish">File already exist on remote. Delete it on FTP. No web interface avaible.</span><br>
             <a href="index.html" class="no-decoration">Back to the main page</a>
-
             <?php
         }
         
