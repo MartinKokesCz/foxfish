@@ -1,3 +1,6 @@
+<?php
+include $_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR . "libs" . DIRECTORY_SEPARATOR . "Download.php";
+?>
 <!DOCTYPE html>
 <html>
 
@@ -13,11 +16,16 @@
     <?php
         // Filtered file from upload.
         $uploadfile = $_FILES['uploadfile'];
+        // Filtered options from form.
+        $optionSquarer = filter_input(INPUT_POST, "squarer");
+
+        var_dump($optionSquarer);
         // Absolute path to the destination.
-        $uploadfilepath = __DIR__ . DIRECTORY_SEPARATOR . "source" . DIRECTORY_SEPARATOR . $uploadfile['name'];
+        $uploadfilepath = __DIR__ . DIRECTORY_SEPARATOR . "urlsSource" . DIRECTORY_SEPARATOR . $uploadfile['name'];
         // If file already exits, stop execution.
         if (!file_exists($uploadfilepath)) 
         {
+            // If file size is too big, stop execution.
             if ($uploadfile['size'] > 524288) 
             {
                 echo("File is too big. (over 524288 Bytes or 0.524288 Megabytes)");
@@ -29,13 +37,13 @@
             <span class="color-whiteish">Starting download and transform...</span><br>
             <span class="color-whiteish">Kecám, ještě to nic nedělá.</span><br>
             <?php
-            // TO DO volání resize skriptu
-            // include("download.php");
+            DownloadFilesWithStructure($uploadfilepath);
+            var_dump($_SERVER['DOCUMENT_ROOT']);
         }
         else
         {
             ?>
-            <span class="color-whiteish">File already exist on remote. Delete it on FTP. No web interface avaible.</span><br>
+            <span class="color-whiteish">File already exist on remote. Delete it on FTP or change the filename. No web interface avaible.</span><br>
             <a href="index.html" class="no-decoration">Back to the main page</a>
             <?php
         }

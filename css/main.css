@@ -12,11 +12,11 @@ body {
     border: 1px solid #ccc;
     display: inline-block;
     padding: 6px 12px;
-    margin-bottom: 5%;
     cursor: pointer;
 }
 
 .fancy-button {
+    margin-top: 5%;
     display: inline-block;
     padding: 15px 25px;
     font-size: 24px;
