@@ -2,9 +2,6 @@
 require_once $_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR . "libs" . DIRECTORY_SEPARATOR . "Config.php";
 include_once $_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR . "libs" . DIRECTORY_SEPARATOR . "Logger.php";
 
-// edit the file in excel and remove all not needed columns and characters
-// there should be only URLs one each line
-
 if (!file_exists("./libs/imgd.php")) 
 {
     $imgdDataTemp = file_get_contents(CIMAGE_URL);
@@ -12,6 +9,13 @@ if (!file_exists("./libs/imgd.php"))
     file_put_contents("./libs/imgd.php", $imgDataRemoteEnabled);
 }
 
+/**
+ * Downloads files from source file.
+ * Directory structure remains the same.
+ * 
+ * @param string $urlsSourceFile    Source file location.
+ * 
+ */
 function DownloadFilesWithStructure($urlsSourceFile)
 {
     define("FILEPATH_IMAGE_URLS", $urlsSourceFile);
