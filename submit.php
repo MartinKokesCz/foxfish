@@ -1,5 +1,7 @@
 <?php
-include $_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR . "libs" . DIRECTORY_SEPARATOR . "Download.php";
+include_once $_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR . "libs" . DIRECTORY_SEPARATOR . "Download.php";
+include_once $_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR . "libs" . DIRECTORY_SEPARATOR . "Logger.php";
+include_once $_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR . "libs" . DIRECTORY_SEPARATOR . "Utils.php";
 ?>
 <!DOCTYPE html>
 <html>
@@ -18,27 +20,34 @@ include $_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR . "libs" . DIRECTORY_SEP
         $uploadfile = $_FILES['uploadfile'];
         // Filtered options from form.
         $optionSquarer = filter_input(INPUT_POST, "squarer");
-
-        var_dump($optionSquarer);
         // Absolute path to the destination.
-        $uploadfilepath = __DIR__ . DIRECTORY_SEPARATOR . "urlsSource" . DIRECTORY_SEPARATOR . $uploadfile['name'];
+        $uploadfilepath = $_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR . "urlsSource" . DIRECTORY_SEPARATOR . random_str(20);
         // If file already exits, stop execution.
         if (!file_exists($uploadfilepath)) 
         {
             // If file size is too big, stop execution.
             if ($uploadfile['size'] > 524288) 
             {
-                echo("File is too big. (over 524288 Bytes or 0.524288 Megabytes)");
+                ?><span class="color-whiteish">File is too big. (over 524288 Bytes or 0.524288 Megabytes)</span><?php
+                LogToFile("File is too big. (over 524288 Bytes or 0.524288 Megabytes)", "error");
                 exit(1);
+            }
+            if ($uploadfile['type'] != "text/plain") 
+            {
+                ?><span class="color-whiteish">File type is NOT "text/plain"! Your file type: <?php echo $uploadfile['type']; ?></span><?php
+                LogToFile("File type is NOT \"text/plain\"! Someone tried to upload" . $uploadfile['type'], "error");
+                exit(2);
             }
             move_uploaded_file($uploadfile['tmp_name'], $uploadfilepath);
             ?>
             <span class="color-whiteish">File successfully uploaded to remote.</span><br>
             <span class="color-whiteish">Starting download and transform...</span><br>
-            <span class="color-whiteish">Kecám, ještě to nic nedělá.</span><br>
+            <span class="color-whiteish">Kecám, ještě to nic nedělá.</span><br><hr>
+            <span class="color-whiteish">Debug info:<span><br>
+            <span class="color-whiteish">File name: <?php echo basename($uploadfilepath); ?></span><br>
+            <span class="color-whiteish">File type: <?php echo $uploadfile['type']; ?></span>
             <?php
             DownloadFilesWithStructure($uploadfilepath);
-            var_dump($_SERVER['DOCUMENT_ROOT']);
         }
         else
         {

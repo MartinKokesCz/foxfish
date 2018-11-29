@@ -1,15 +1,15 @@
 <?php
 require_once $_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR . "libs" . DIRECTORY_SEPARATOR . "Config.php";
-include $_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR . "libs" . DIRECTORY_SEPARATOR . "Logger.php";
+include_once $_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR . "libs" . DIRECTORY_SEPARATOR . "Logger.php";
 
 // edit the file in excel and remove all not needed columns and characters
 // there should be only URLs one each line
 
-if (!file_exists("./imgd.php")) 
+if (!file_exists("./libs/imgd.php")) 
 {
     $imgdDataTemp = file_get_contents(CIMAGE_URL);
     $imgDataRemoteEnabled = str_replace("//'remote_allow'", "'remote_allow'", $imgdDataTemp);
-    file_put_contents("./imgd.php", $imgDataRemoteEnabled);
+    file_put_contents("./libs/imgd.php", $imgDataRemoteEnabled);
 }
 
 function DownloadFilesWithStructure($urlsSourceFile)
@@ -20,7 +20,7 @@ function DownloadFilesWithStructure($urlsSourceFile)
         $handle = fopen(FILEPATH_IMAGE_URLS, "r");
         if ($handle) 
         {
-            $uploadFolder = $_SERVER['DOCUMENT_ROOT'] . "downloads" . DIRECTORY_SEPARATOR . "upload" . "-" . date("Y-m-d-H_m-i-s");
+            $uploadFolder = "downloads" . DIRECTORY_SEPARATOR . "upload" . "-" . date("Y-m-d-H_m-i-s");
             while (($line = fgets($handle)) !== false) 
             {
                 $URL = preg_replace("/\r|\n/", "", $line);
@@ -67,15 +67,18 @@ function DownloadFilesWithStructure($urlsSourceFile)
                 //echo "Image transformed and saved successfully!\n\n\n";
             }
             fclose($handle);
+            LogToFile("File . \"" . FILEPATH_IMAGE_URLS . "\" successfully downloaded.", "info");
         } 
         else 
         {
             echo "The file could " . FILEPATH_IMAGE_URLS . " not be opened";
+            LogToFile("The file could " . FILEPATH_IMAGE_URLS . " not be opened", "error");
         }
     }
     else 
     {
         echo "The file " . FILEPATH_IMAGE_URLS . " doesn't exist";
+        LogToFile("The file " . FILEPATH_IMAGE_URLS . " doesn't exist", "error");
     }
 
 }
