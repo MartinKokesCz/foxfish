@@ -26,15 +26,12 @@ function DownloadFilesWithStructure($urlsSourceFile)
                 $URL = preg_replace("/\r|\n/", "", $line);
                 // remove the protocol and domain from string
                 $filepath = parse_url($URL, PHP_URL_PATH);
-
-                // get file name only
                 $filename = basename($filepath);
 
                 // remove file name from the path
                 $folderpath = str_replace($filename, "", $filepath);
 
                 $uploadpath = $_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR . $uploadFolder . $folderpath;
-                // true - recursively
                 mkdir($uploadpath, 0777, true);
 
                 // Download image from formatted URL
@@ -67,7 +64,7 @@ function DownloadFilesWithStructure($urlsSourceFile)
                 //echo "Image transformed and saved successfully!\n\n\n";
             }
             fclose($handle);
-            LogToFile("File . \"" . FILEPATH_IMAGE_URLS . "\" successfully downloaded.", "info");
+            LogToFile("File \"" . FILEPATH_IMAGE_URLS . "\" successfully downloaded.", "info");
         } 
         else 
         {

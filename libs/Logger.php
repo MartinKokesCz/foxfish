@@ -1,12 +1,20 @@
 <?php
-function LogToFile($log_msg, $level = "Unspecified level")
+require_once $_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR . "libs" . DIRECTORY_SEPARATOR . "Config.php";
+
+/**
+ * Logs a specified message to log file.
+ * Log file has specified path in config file.
+ * 
+ * @param string $log_msg   Message to log.
+ * @param string $level     Log level. Optional.
+ */
+function LogToFile($log_msg, $level = "Unspecified")
 {
     $level = strtoupper($level);
-    $log_dir = $_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR . "log";
-    if (!file_exists($log_dir)) 
+    if (!file_exists(LOG_DIR)) 
     {
         mkdir($log_dir, 0777, true);
     }
-    $log_filename_data = $log_dir . DIRECTORY_SEPARATOR . "log_" . date("Y-m-d") . ".log";
+    $log_filename_data = LOG_DIR . DIRECTORY_SEPARATOR . "log_" . date("Y-m-d") . ".log";
     file_put_contents($log_filename_data, "[" . date("Y/m/d H:i:s") . "] [$level] $log_msg\n", FILE_APPEND);
 }
