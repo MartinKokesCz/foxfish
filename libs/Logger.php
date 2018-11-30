@@ -8,7 +8,7 @@ require_once $_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR . "libs" . DIRECTOR
  * @param string $log_msg   Message to log.
  * @param string $level     Log level. Optional.
  */
-function LogToFile($log_msg, $level = "Unspecified")
+function LogToFile(string $log_msg, string $level = "Unspecified")
 {
     $level = strtoupper($level);
     if (!file_exists(LOG_DIR)) 

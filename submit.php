@@ -2,6 +2,7 @@
 include_once $_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR . "libs" . DIRECTORY_SEPARATOR . "Download.php";
 include_once $_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR . "libs" . DIRECTORY_SEPARATOR . "Logger.php";
 include_once $_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR . "libs" . DIRECTORY_SEPARATOR . "Utils.php";
+include_once $_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR . "libs" . DIRECTORY_SEPARATOR . "Transform.php";
 ?>
 <!DOCTYPE html>
 <html>
@@ -20,6 +21,7 @@ include_once $_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR . "libs" . DIRECTOR
         $uploadedFile = $_FILES['uploadfile'];
         // Filtered options from form.
         $optionSquarer = filter_input(INPUT_POST, "squarer");
+
         // Absolute path to the destination.
         $uploadedFilePath = $_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR . "urlsSource" . DIRECTORY_SEPARATOR . random_str(20);
         // If file already exits, stop execution.
@@ -39,6 +41,7 @@ include_once $_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR . "libs" . DIRECTOR
                 exit(2);
             }
             move_uploaded_file($uploadedFile['tmp_name'], $uploadedFilePath);
+            
             ?>
             <div class="color-whiteish">
                 <span>File successfully uploaded to remote.</span><br>
@@ -49,7 +52,10 @@ include_once $_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR . "libs" . DIRECTOR
                 <span>File type: <?php echo $uploadedFile['type']; ?></span>
             </div>
             <?php
-            DownloadFilesWithStructure($uploadedFilePath);
+            $cImageManager = new CImageManager($uploadedFilePath);
+            $cImageManager->downloadFilesWithStructure();
+            downloadFilesWithStructure($uploadedFilePath);
+            TransformImage();
         }
         else
         {
