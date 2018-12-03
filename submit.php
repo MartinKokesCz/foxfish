@@ -1,8 +1,8 @@
 <?php
-include_once $_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR . "libs" . DIRECTORY_SEPARATOR . "Download.php";
 include_once $_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR . "libs" . DIRECTORY_SEPARATOR . "Logger.php";
 include_once $_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR . "libs" . DIRECTORY_SEPARATOR . "Utils.php";
 include_once $_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR . "libs" . DIRECTORY_SEPARATOR . "Transform.php";
+include_once $_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR . "libs" . DIRECTORY_SEPARATOR . "CimageManager.php";
 ?>
 <!DOCTYPE html>
 <html>
@@ -23,24 +23,21 @@ include_once $_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR . "libs" . DIRECTOR
         $optionSquarer = filter_input(INPUT_POST, "squarer");
 
         // Absolute path to the destination.
-        $uploadedFilePath = $_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR . "urlsSource" . DIRECTORY_SEPARATOR . random_str(20);
+        $inputFilePath = $_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR . "urlsSource" . DIRECTORY_SEPARATOR . random_str(20);
         // If file already exits, stop execution.
-        if (!file_exists($uploadedFilePath)) 
-        {
+        if (!file_exists($inputFilePath)) {
             // If file size is too big, stop execution.
-            if ($uploadedFile['size'] > 524288) 
-            {
+            if ($uploadedFile['size'] > 524288) {
                 ?><span class="color-whiteish">File is too big. (over 524288 Bytes or 0.524288 Megabytes)</span><?php
-                LogToFile("File is too big. (over 524288 Bytes or 0.524288 Megabytes)", "error");
+                log_to_file("File is too big. (over 524288 Bytes or 0.524288 Megabytes)", "error");
                 exit(1);
             }
-            if ($uploadedFile['type'] != "text/plain") 
-            {
+            if ($uploadedFile['type'] != "text/plain") {
                 ?><span class="color-whiteish">File type is NOT "text/plain"! Your file type: <?php echo $uploadedFile['type']; ?></span><?php
-                LogToFile("File type is NOT \"text/plain\"! Someone tried to upload" . $uploadedFile['type'], "error");
+                log_to_file("File type is NOT \"text/plain\"! Someone tried to upload" . $uploadedFile['type'], "error");
                 exit(2);
             }
-            move_uploaded_file($uploadedFile['tmp_name'], $uploadedFilePath);
+            move_uploaded_file($uploadedFile['tmp_name'], $inputFilePath);
             
             ?>
             <div class="color-whiteish">
@@ -48,14 +45,13 @@ include_once $_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR . "libs" . DIRECTOR
                 <span>Starting download and transform...</span><br>
                 <span>Kecám, ještě to nic nedělá.</span><br><hr>
                 <span>Debug info:<span><br>
-                <span>File name: <?php echo basename($uploadedFilePath); ?></span><br>
+                <span>File name: <?php echo basename($inputFilePath); ?></span><br>
                 <span>File type: <?php echo $uploadedFile['type']; ?></span>
             </div>
             <?php
-            $cImageManager = new CImageManager($uploadedFilePath);
-            $cImageManager->downloadFilesWithStructure();
-            downloadFilesWithStructure($uploadedFilePath);
-            TransformImage();
+            var_dump($inputFilePath);
+            $cImageManager = new CImageManager();
+            $cImageManager->downloadFilesWithStructure($inputFilePath);
         }
         else
         {

@@ -4,5 +4,3 @@ define("CIMAGE_URL", "https://raw.githubusercontent.com/mosbth/cimage/master/web
 
 // Path to the log dir.
 define("LOG_DIR", $_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR . "log");
-
-

@@ -4,15 +4,14 @@ require_once $_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR . "libs" . DIRECTOR
 /**
  * Logs a specified message to log file.
  * Log file has specified path in config file.
- * 
+ *
  * @param string $log_msg   Message to log.
  * @param string $level     Log level. Optional.
  */
-function LogToFile(string $log_msg, string $level = "Unspecified")
+function log_to_file(string $log_msg, string $level = "Unspecified")
 {
     $level = strtoupper($level);
-    if (!file_exists(LOG_DIR)) 
-    {
+    if (!file_exists(LOG_DIR)) {
         mkdir($log_dir, 0777, true);
     }
     $log_filename_data = LOG_DIR . DIRECTORY_SEPARATOR . "log_" . date("Y-m-d") . ".log";
