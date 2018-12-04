@@ -1,3 +1,5 @@
 upload-*
 source/*
 !source/example.txt
+vendor/*
+composer
