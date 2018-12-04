@@ -27,7 +27,7 @@ spl_autoload_register(function ($class) {
         $optionSquarer = filter_input(INPUT_POST, "squarer");
 
         // Absolute path to the destination.
-        $fileWithProductUrlsPath = __DIR__ . DIRECTORY_SEPARATOR . "urlsSource" . DIRECTORY_SEPARATOR . Utils::random_str(20) . ".txt";
+        $fileWithProductUrlsPath = $_SERVER["DOCUMENT_ROOT"] . DIRECTORY_SEPARATOR . "urlsSource" . DIRECTORY_SEPARATOR . Utils::random_str(20) . ".txt";
         // If file already exits, stop execution.
         if (!file_exists($fileWithProductUrlsPath)) {
             // If file size is too big, stop execution.
@@ -50,7 +50,9 @@ spl_autoload_register(function ($class) {
                 <span>Kecám, ještě to nic nedělá.</span><br><hr>
                 <span>Debug info:<span><br>
                 <span>File name: <?php echo basename($fileWithProductUrlsPath); ?></span><br>
-                <span>File type: <?php echo $uploadedFile['type']; ?></span>
+                <span>File path: <?php echo $fileWithProductUrlsPath; ?></span><br>
+                <span>File type: <?php echo $uploadedFile['type']; ?></span><br>
+                <span>Log folder: <?php echo Configuration::getLogDir(); ?></span><br>
             </div>
             <?php
             var_dump($fileWithProductUrlsPath);

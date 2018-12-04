@@ -7,10 +7,8 @@ class CImageManager
     
     public function __construct($fileWithProductUrlsPath)
     {
-        echo "jedu construct";
-        
         $this->downloadsFolder = "downloads" . DIRECTORY_SEPARATOR . "download" . "-" . date("Y-m-d-H_m-i-s");
-        $this->sourceFilePath = $this->fileWithProductUrlsPath;
+        $this->fileWithProductUrlsPath = $fileWithProductUrlsPath;
     }
 
     /**
@@ -22,8 +20,9 @@ class CImageManager
      */
     public function downloadFilesWithStructure()
     {
+        var_dump($fileWithProductUrlsPath);
         if (file_exists($this->fileWithProductUrlsPath)) {
-            $handle = fopen($this->fileWithProductUrlsPath, "r");
+            $handle = fopen($fileWithProductUrlsPath, "r");
             if ($handle) {
                 while (($line = fgets($handle)) !== false) {
                     $URL = preg_replace("/\r|\n/", "", $line);
@@ -32,7 +31,7 @@ class CImageManager
                     // remove file name from the path
                     $folderpath = str_replace($filename, "", $filepath);
 
-                    $downloadPath = $this->$downloadsFolder . $folderpath;
+                    $downloadPath = $downloadsFolder . $folderpath;
                     mkdir($downloadPath, 0777, true);
                     // Download image from formatted URL
                     $filedata = file_get_contents($URL);
@@ -41,16 +40,16 @@ class CImageManager
                     file_put_contents($outputFilePath, $filedata);
                     // Write local image path to a file
                     $formattedTextInput = $outputFilePath . PHP_EOL;
-                    file_put_contents($tmp_path, $formattedTextInput, FILE_APPEND);
+                    file_put_contents(Configuration::getTempFilePath, $formattedTextInput, FILE_APPEND);
                 }
                 fclose($handle);
                 Logger::logToFile("File \"" . $this->fileWithProductUrlsPath . "\" successfully uploaded and files downloaded with same structure.", "info");
             } else {
-                echo "The file could " . $this->fileWithProductUrlsPath . " not be opened";
+                echo "The file could " . $this->fileWithProductUrlsPath . " not be opened.";
                 Logger::logToFile("The file could " . $this->fileWithProductUrlsPath . " not be opened", "error");
             }
         } else {
-            echo "The file " . $this->fileWithProductUrlsPath . " doesn't exist";
+            echo "The file " . $this->fileWithProductUrlsPath . " doesn't exist.<br>";
             Logger::logToFile("The file " . $this->fileWithProductUrlsPath . " doesn't exist", "error");
         }
     }

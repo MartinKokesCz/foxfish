@@ -1,8 +1,7 @@
 <?php
 final class Configuration
 {
-
-    public $dotenv;
+    private $dotenv;
 
 
     public static function getInstance()
@@ -10,36 +9,50 @@ final class Configuration
         static $inst = null;
         if ($inst === null) {
             $inst = new Configuration();
-            
         }
         return $inst;
     }
 
     /**
-     * Private ctor so nobody else can instantiate it
-     *
+     * Private constructor so nobody else can instantiate it.
      */
     private function __construct()
     {
-        
-        
     }
 
-    private static function getBaseDir() {
-        $basedir = __DIR__ . DIRECTORY_SEPARATOR . ".." . DIRECTORY_SEPARATOR;
+    /**
+     * Returns a document root.
+     */
+    private static function getBaseDir()
+    {
+        //$basedir = __DIR__ . DIRECTORY_SEPARATOR . ".." . DIRECTORY_SEPARATOR;
+        $basedir = $_SERVER["DOCUMENT_ROOT"];
         return $basedir;
     }
 
-    public function getLogDir() {
+    /**
+     * Returns directory of log files.
+     */
+    public static function getLogDir()
+    {
         self::getInstance();
-        $this->dotenv = new Dotenv\Dotenv(__DIR__ . DIRECTORY_SEPARATOR . "..");
-        $this->dotenv->load();
-        
+        $dotenv = new Dotenv\Dotenv(__DIR__ . DIRECTORY_SEPARATOR . "..");
+        $dotenv->load();
         $logDir = getenv("LOG_DIR");
-        var_dump($logDir);
-        //$dir = self::getBaseDir() . getenv("LOG_DIR");
-        echo "tdstd: " . $dir;
+        $dir = self::getBaseDir() . getenv("LOG_DIR");
         return $dir;
     }
-    
+
+    /**
+     * Returns directory of temporary file.
+     */
+    public static function getTempFilePath()
+    {
+        self::getInstance();
+        $dotenv = new Dotenv\Dotenv(__DIR__ . DIRECTORY_SEPARATOR . "..");
+        $dotenv->load();
+        $tmpFilePath = getenv("TMP_FILE_PATH");
+        $path = self::getBaseDir() . getenv("TMP_FILE_PATH");
+        return $path;
+    }
 }

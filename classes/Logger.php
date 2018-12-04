@@ -18,4 +18,3 @@ class Logger
         file_put_contents($log_filename_data, "[" . date("Y/m/d H:i:s") . "] [$level] $log_msg\n", FILE_APPEND);
     }
 }
-
