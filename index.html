@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Photo squarer</title>
+    <title>Photo mod</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" media="screen" href="css/main.css" />
 </head>
@@ -17,8 +17,24 @@
     <form class="uploadForm" action="submit.php" method="post" enctype="multipart/form-data">
         <label class="color-whiteish" for="file">Soubor s odkazy &#8594;</label>
         <input type="file" id="file" name="uploadfile" value="" required><br>
-        <label class="color-whiteish" for="squarer">Udělej mi z toho čtverec, který je filled to fit ffffff. &#8594;</label>
-        <input type="checkbox" id="squarer" name="squarer" value="1"><br>
+        <!-- Výška a šířka -->
+        <label class="color-whiteish" for="width">Šířka: &#8594;</label>
+        <input type="number" id="width" name="width" value="250"><br>
+        <label class="color-whiteish" for="height">Výška: &#8594;</label>
+        <input type="number" id="height" name="height" value="250"><br>
+
+        <label class="color-whiteish" for="transformQuestion">Chceš transformovat?: &#8594;</label>
+        <input type="checkbox" id="transformQuestion" name="transformQuestion" value="true"><br>
+
+        
+        <label class="color-whiteish" for="squarer">Čtverec: &#8594;</label>
+        <input type="checkbox" id="squarer" name="squarer" value="true"><br>
+
+        <label class="color-whiteish" for="FillToFit">Fill to fit: &#8594;</label>
+        <input type="checkbox" id="FillToFit" name="FillToFit" value="true"><br>
+
+
+
         <input class="fancy-button" type="submit" name="submit" value="IMA FIRIN MAH LAZOR">
     </form>
 

@@ -25,9 +25,7 @@ final class Configuration
      */
     private static function getBaseDir()
     {
-        //$basedir = __DIR__ . DIRECTORY_SEPARATOR . ".." . DIRECTORY_SEPARATOR;
-        $basedir = $_SERVER["DOCUMENT_ROOT"];
-        return $basedir;
+        return $_SERVER["DOCUMENT_ROOT"];
     }
 
     /**
@@ -36,7 +34,7 @@ final class Configuration
     public static function getLogDir()
     {
         self::getInstance();
-        $dotenv = new Dotenv\Dotenv(__DIR__ . DIRECTORY_SEPARATOR . "..");
+        $dotenv = new Dotenv\Dotenv($_SERVER["DOCUMENT_ROOT"]);
         $dotenv->load();
         $logDir = getenv("LOG_DIR");
         $dir = self::getBaseDir() . getenv("LOG_DIR");

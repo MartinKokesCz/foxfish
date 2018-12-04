@@ -1,5 +1,5 @@
 <?php
-class CImageManager
+class DownloadManager
 {
     private $fileWithProductUrlsPath;
     private $downloadsFolder;
@@ -20,9 +20,8 @@ class CImageManager
      */
     public function downloadFilesWithStructure()
     {
-        var_dump($fileWithProductUrlsPath);
         if (file_exists($this->fileWithProductUrlsPath)) {
-            $handle = fopen($fileWithProductUrlsPath, "r");
+            $handle = fopen($this->fileWithProductUrlsPath, "r");
             if ($handle) {
                 while (($line = fgets($handle)) !== false) {
                     $URL = preg_replace("/\r|\n/", "", $line);
@@ -31,7 +30,7 @@ class CImageManager
                     // remove file name from the path
                     $folderpath = str_replace($filename, "", $filepath);
 
-                    $downloadPath = $downloadsFolder . $folderpath;
+                    $downloadPath = $this->downloadsFolder . $folderpath;
                     mkdir($downloadPath, 0777, true);
                     // Download image from formatted URL
                     $filedata = file_get_contents($URL);
@@ -40,7 +39,7 @@ class CImageManager
                     file_put_contents($outputFilePath, $filedata);
                     // Write local image path to a file
                     $formattedTextInput = $outputFilePath . PHP_EOL;
-                    file_put_contents(Configuration::getTempFilePath, $formattedTextInput, FILE_APPEND);
+                    file_put_contents(Configuration::getTempFilePath(), $formattedTextInput, FILE_APPEND);
                 }
                 fclose($handle);
                 Logger::logToFile("File \"" . $this->fileWithProductUrlsPath . "\" successfully uploaded and files downloaded with same structure.", "info");
