@@ -17,7 +17,6 @@ spl_autoload_register(function ($class) {
     <title>Results</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" media="screen" href="css/main.css" />
-    <script type="text/javascript" src="js/Utils.js"></script>
 </head>
 
 <body>
@@ -34,10 +33,6 @@ spl_autoload_register(function ($class) {
             $fillToFit = null
 
         );
-
-        // Filtered options from form.
-        $optionWidth = filter_input(INPUT_POST, "width");
-        $optionHeight = filter_input(INPUT_POST, "height");
         
         if (!isset($_POST["tranformQuestion"]) && $_POST["tranformQuestion"] = "true") {
             $optionsArr[0] = true;
@@ -82,7 +77,7 @@ spl_autoload_register(function ($class) {
             }
             move_uploaded_file($uploadedFile['tmp_name'], $fileWithProductUrlsPath); ?>
             <div class="color-whiteish">
-                <span>File successfully uploaded to remote.</span><br>
+                <span>Input file successfully uploaded to remote.</span><br>
                 <span>Starting download. If you selected tranform, then transforming too.</span><br>
                 <hr>
                 <span>File name: <?php echo basename($fileWithProductUrlsPath); ?></span><br>
@@ -92,22 +87,17 @@ spl_autoload_register(function ($class) {
             </div>
             <?php
 
-            var_dump($optionWidth, $optionHeight);
-            var_dump($optionsArr[0], $optionsArr[1], $optionsArr[2]);
-
-
+            $downloadManager = new DownloadManager($fileWithProductUrlsPath);
             // Tranform Function TO DO
             if ($optionsArr[0] == false) {
-                $downloadManager = new DownloadManager($fileWithProductUrlsPath);
                 $downloadManager->downloadFilesWithStructure();
                 exit(0);
             }
 
             if ($optionsArr[0] == true) {
-                $downloadManager = new DownloadManager($fileWithProductUrlsPath);
                 $downloadManager->downloadFilesWithStructure();
                 $tranformManager = new TransformManager($optionsArr);
-                $tranformManager->tranformImage();
+                $tranformManager->transformImage();
             }
 
 

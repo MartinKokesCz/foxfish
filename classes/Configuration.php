@@ -53,4 +53,17 @@ final class Configuration
         $path = self::getBaseDir() . getenv("TMP_FILE_PATH");
         return $path;
     }
+
+        /**
+     * Returns directory of trasformed files.
+     */
+    public static function getTransformedDirPath()
+    {
+        self::getInstance();
+        $dotenv = new Dotenv\Dotenv(__DIR__ . DIRECTORY_SEPARATOR . "..");
+        $dotenv->load();
+        $tmpFilePath = getenv("TRANSFORMED_DATA_FOLDER");
+        $path = self::getBaseDir() . getenv("TRANSFORMED_DATA_FOLDER");
+        return $path;
+    }
 }

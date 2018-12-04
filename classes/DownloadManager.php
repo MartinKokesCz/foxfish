@@ -38,7 +38,7 @@ class DownloadManager
                     $outputFilePath = $downloadPath . $filename;
                     file_put_contents($outputFilePath, $filedata);
                     // Write local image path to a file
-                    $formattedTextInput = $outputFilePath . PHP_EOL;
+                    $formattedTextInput = $_SERVER["DOCUMENT_ROOT"] . $outputFilePath . PHP_EOL;
                     file_put_contents(Configuration::getTempFilePath(), $formattedTextInput, FILE_APPEND);
                 }
                 fclose($handle);
