@@ -25,6 +25,8 @@ class TransformManager
                 exit(4);
             }
             while (($line = fgets($handle)) !== false) {
+                $line = trim($line);
+                //var_dump($line);
                 list($width, $height) = getimagesize($line);
                 $largerSide = 0;
                 if (($width == $height) || ($width > $height)) {
@@ -33,13 +35,13 @@ class TransformManager
                     $largerSide = $height;
                 }
 
-                $CImageLibCallURL = $_SERVER["DOCUMENT_ROOT"] . DIRECTORY_SEPARATOR . "classes" . DIRECTORY_SEPARATOR . "imgd.php?src=$line&w=$largetSide&h=$largerSide";
+                $CImageLibCallURL = "localhost" . DIRECTORY_SEPARATOR . "classes" . DIRECTORY_SEPARATOR . "imgd.php?src=$line&w=$largerSide&h=$largerSide";
                 $filedataTransformed = file_get_contents($CImageLibCallURL);
                 $tranformedImagesFilePath =  $line;
-                var_dump($tranformedImagesFilePath);
+                //var_dump($tranformedImagesFilePath);
                 file_put_contents($tranformedImagesFilePath, $filedataTransformed);
             }
-            fopen(Configuration::getTempFilePath(), "w");
+            //fopen(Configuration::getTempFilePath(), "w");
         }
 
 

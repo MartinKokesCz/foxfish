@@ -61,7 +61,7 @@ spl_autoload_register(function ($class) {
 
 
         // Absolute path to the destination.
-        $fileWithProductUrlsPath = $_SERVER["DOCUMENT_ROOT"] . DIRECTORY_SEPARATOR . "urlsSource" . DIRECTORY_SEPARATOR . Utils::random_str(20) . ".txt";
+        $fileWithProductUrlsPath = __DIR__ . DIRECTORY_SEPARATOR . "urlsSource" . DIRECTORY_SEPARATOR . Utils::random_str(20) . ".txt";
         // If file already exits, stop execution.
         if (!file_exists($fileWithProductUrlsPath)) {
             // If file size is too big, stop execution.

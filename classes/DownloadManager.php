@@ -7,7 +7,7 @@ class DownloadManager
     
     public function __construct($fileWithProductUrlsPath)
     {
-        $this->downloadsFolder = "downloads" . DIRECTORY_SEPARATOR . "download" . "-" . date("Y-m-d-H_m-i-s");
+        $this->downloadsFolder = Configuration::getDownloadsDirPath() . DIRECTORY_SEPARATOR . "download" . "-" . date("Y-m-d-H_m-i-s");
         $this->fileWithProductUrlsPath = $fileWithProductUrlsPath;
     }
 
@@ -38,7 +38,7 @@ class DownloadManager
                     $outputFilePath = $downloadPath . $filename;
                     file_put_contents($outputFilePath, $filedata);
                     // Write local image path to a file
-                    $formattedTextInput = $_SERVER["DOCUMENT_ROOT"] . $outputFilePath . PHP_EOL;
+                    $formattedTextInput = $outputFilePath . PHP_EOL;
                     file_put_contents(Configuration::getTempFilePath(), $formattedTextInput, FILE_APPEND);
                 }
                 fclose($handle);

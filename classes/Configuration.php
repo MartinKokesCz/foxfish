@@ -25,7 +25,7 @@ final class Configuration
      */
     private static function getBaseDir()
     {
-        return $_SERVER["DOCUMENT_ROOT"];
+        return $_SERVER["DOCUMENT_ROOT"] . DIRECTORY_SEPARATOR;
     }
 
     /**
@@ -34,9 +34,8 @@ final class Configuration
     public static function getLogDir()
     {
         self::getInstance();
-        $dotenv = new Dotenv\Dotenv($_SERVER["DOCUMENT_ROOT"]);
+        $dotenv = new Dotenv\Dotenv(self::getBaseDir());
         $dotenv->load();
-        $logDir = getenv("LOG_DIR");
         $dir = self::getBaseDir() . getenv("LOG_DIR");
         return $dir;
     }
@@ -47,23 +46,30 @@ final class Configuration
     public static function getTempFilePath()
     {
         self::getInstance();
-        $dotenv = new Dotenv\Dotenv(__DIR__ . DIRECTORY_SEPARATOR . "..");
+        $dotenv = new Dotenv\Dotenv(self::getBaseDir());
         $dotenv->load();
-        $tmpFilePath = getenv("TMP_FILE_PATH");
         $path = self::getBaseDir() . getenv("TMP_FILE_PATH");
         return $path;
     }
 
-        /**
+    /**
      * Returns directory of trasformed files.
      */
     public static function getTransformedDirPath()
     {
         self::getInstance();
-        $dotenv = new Dotenv\Dotenv(__DIR__ . DIRECTORY_SEPARATOR . "..");
+        $dotenv = new Dotenv\Dotenv(self::getBaseDir());
         $dotenv->load();
-        $tmpFilePath = getenv("TRANSFORMED_DATA_FOLDER");
         $path = self::getBaseDir() . getenv("TRANSFORMED_DATA_FOLDER");
+        return $path;
+    }
+
+    public static function getDownloadsDirPath()
+    {
+        self::getInstance();
+        $dotenv = new Dotenv\Dotenv(self::getBaseDir());
+        $dotenv->load();
+        $path = self::getBaseDir() . getenv("DOWNLOADS_DATA_FOLDER");
         return $path;
     }
 }
