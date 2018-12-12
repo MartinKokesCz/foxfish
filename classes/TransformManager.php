@@ -38,7 +38,8 @@ class TransformManager
 
 
     /**
-     * Transform downloaded file structure with images with parameters from options input.
+     * Transform downloaded file structure
+     * with images with parameters from options input.
      * 
      * @return void
      */
@@ -67,7 +68,8 @@ class TransformManager
                     $largerSide = $height;
                 }
 
-                $CImageLibCallURL = "localhost" . DIRECTORY_SEPARATOR . "classes" . DIRECTORY_SEPARATOR . "imgd.php?src=$line&w=$largerSide&h=$largerSide";
+                $CImageLibCallURL = "localhost" . DIRECTORY_SEPARATOR . "classes" . DIRECTORY_SEPARATOR 
+                . "imgd.php?src=$line&w=$largerSide&h=$largerSide";
                 $filedataTransformed = file_get_contents($CImageLibCallURL);
                 $tranformedImagesFilePath =  $line;
                 //var_dump($tranformedImagesFilePath);
