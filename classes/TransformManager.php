@@ -1,15 +1,47 @@
 <?php
+/**
+ * Transform manager
+ * php version 7.2
+ *
+ * @category ImageManipulation\TranformManager
+ * @package  KokyIMage
+ * @author   Martin Kokeš <info@martinkokes.cz>
+ * @author   Jan Pilař <pilarjan4111@gmail.com>
+ * @license  GPL https://choosealicense.com/licenses/gpl-3.0/
+ * @link     imgmod.martinkokes.cz
+ */
+
+/**
+ * Transform manager class
+ * php version 7.2
+ *
+ * @category ImageManipulation\TranformManager\TranformManager
+ * @package  KokyIMage
+ * @author   Martin Kokeš <info@martinkokes.cz>
+ * @author   Jan Pilař <pilarjan4111@gmail.com>
+ * @license  GPL https://choosealicense.com/licenses/gpl-3.0/
+ * @link     imgmod.martinkokes.cz
+ */
 class TransformManager
 {
-    private $optionsArr;
+    private $_optionsArr;
 
+    /**
+     * Constructor class
+     * 
+     * @param Array $optionsArr Array with options from form.
+     */
     public function __construct($optionsArr)
     {
-        $this->optionsArr = $optionsArr;
+        $this->_optionsArr = $optionsArr;
     }
 
 
-
+    /**
+     * Transform downloaded file structure with images with parameters from options input.
+     * 
+     * @return void
+     */
     public function transformImage()
     {
         var_dump($this->optionsArr);

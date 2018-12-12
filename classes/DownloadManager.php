@@ -1,22 +1,50 @@
 <?php
+/**
+ * Download manager
+ * php version 7.2
+ *
+ * @category ImageManipulation\DownloadManager
+ * @package  KokyIMage
+ * @author   Martin Kokeš <info@martinkokes.cz>
+ * @author   Jan Pilař <pilarjan4111@gmail.com>
+ * @license  GPL https://choosealicense.com/licenses/gpl-3.0/
+ * @version  GIT: $Id$ In development. Unstable.
+ * @link     imgmod.martinkokes.cz
+ */
+
+
+/**
+ * Manages downloads from submitted plain text file.
+ *
+ * @category ImageManipulation\DownloadManager\DownloadManager
+ * @package  KokyIMage
+ * @author   Martin Kokeš <info@martinkokes.cz>
+ * @author   Jan Pilař <pilarjan4111@gmail.com>
+ * @license  GPL https://choosealicense.com/licenses/gpl-3.0/
+ * @link     imgmod.martinkokes.cz
+ */
 class DownloadManager
 {
-    private $fileWithProductUrlsPath;
-    private $downloadsFolder;
-    private $localFilesPathsList;
+    private $_fileWithProductUrlsPath;
+    private $_downloadsFolder;
     
+    /**
+     * Constructor class
+     *
+     * @param string $fileWithProductUrlsPath Source file path.
+     */
     public function __construct($fileWithProductUrlsPath)
     {
-        $this->downloadsFolder = Configuration::getDownloadsDirPath() . DIRECTORY_SEPARATOR . "download" . "-" . date("Y-m-d-H_m-i-s");
-        $this->fileWithProductUrlsPath = $fileWithProductUrlsPath;
+        $this->_downloadsFolder = Configuration::getDownloadsDirPath()
+        . DIRECTORY_SEPARATOR . "download" . "-" . date("Y-m-d-H_m-i-s");
+        $this->_fileWithProductUrlsPath = $fileWithProductUrlsPath;
     }
 
     /**
      * Downloads files from source file.
      * Directory structure remains the same.
      *
-     * @param string $fileWithProductUrlsPath  Source file with urls.
-     *
+     * @return void
      */
     public function downloadFilesWithStructure()
     {
@@ -42,14 +70,29 @@ class DownloadManager
                     file_put_contents(Configuration::getTempFilePath(), $formattedTextInput, FILE_APPEND);
                 }
                 fclose($handle);
-                Logger::logToFile("File \"" . $this->fileWithProductUrlsPath . "\" successfully uploaded and files downloaded with same structure.", "info");
+                Logger::logToFile(
+                    "File \"" . $this->fileWithProductUrlsPath
+                    . "\" successfully uploaded and files 
+                    downloaded with same structure.",
+                    "info"
+                );
             } else {
-                echo "The file could " . $this->fileWithProductUrlsPath . " not be opened.";
-                Logger::logToFile("The file could " . $this->fileWithProductUrlsPath . " not be opened", "error");
+                echo "The file could "
+                . $this->fileWithProductUrlsPath . " not be opened.";
+                Logger::logToFile(
+                    "The file could " . $this->fileWithProductUrlsPath
+                    . " not be opened",
+                    "error"
+                );
             }
         } else {
-            echo "The file " . $this->fileWithProductUrlsPath . " doesn't exist.<br>";
-            Logger::logToFile("The file " . $this->fileWithProductUrlsPath . " doesn't exist", "error");
+            echo "The file "
+            . $this->fileWithProductUrlsPath . " doesn't exist.<br>";
+            Logger::logToFile(
+                "The file " . $this->fileWithProductUrlsPath
+                . " doesn't exist",
+                "error"
+            );
         }
     }
 }
