@@ -30,7 +30,7 @@ final class Configuration
     /**
      * If instance of Configuration class doesn't exist, create it.
      * 
-     * @return Configuration instance
+     * @return Instance Configuration instance
      */
     public static function getInstance()
     {
@@ -51,7 +51,7 @@ final class Configuration
     /**
      * Returns a document root.
      * 
-     * @return Document root.
+     * @return string directory root.
      */
     private static function _getBaseDir()
     {
@@ -61,7 +61,7 @@ final class Configuration
     /**
      * Returns directory of log files.
      * 
-     * @return Directory of log files.
+     * @return string Directory of log files.
      */
     public static function getLogDir()
     {
@@ -75,7 +75,7 @@ final class Configuration
     /**
      * Returns directory of temporary file.
      * 
-     * @return Directory path of temporary file.
+     * @return string Directory path of temporary file.
      */
     public static function getTempFilePath()
     {
@@ -89,7 +89,7 @@ final class Configuration
     /**
      * Returns directory of trasformed files.
      * 
-     * @return Directory path of transformed/outputed files.
+     * @return string Directory path of transformed/outputed files.
      */
     public static function getTransformedDirPath()
     {
@@ -104,7 +104,7 @@ final class Configuration
     /**
      * Returns directory path of downloads folder.
      * 
-     * @return Directory path of downloads folder.
+     * @return string Directory path of downloads folder.
      */
     public static function getDownloadsDirPath()
     {
