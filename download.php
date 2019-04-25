@@ -3,7 +3,7 @@
 require_once "config.php";
 
 
-
+// test
 // edit the file in excel and remove all not needed columns and characters
 // there should be only URLs one each line
 
