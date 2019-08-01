@@ -1,6 +1,8 @@
 {
     "require": {
-        "vlucas/phpdotenv": "^2.5",
-        "phpdocumentor/phpdocumentor": "2.*"
+        "php" : "^7.0",
+        "vlucas/phpdotenv": "^3.4",
+        "phpdocumentor/phpdocumentor": "2.*",
+        "mos/cimage": "^0.7.20"
     }
 }

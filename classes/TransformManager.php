@@ -24,59 +24,44 @@
  */
 class TransformManager
 {
-    private $_optionsArr;
-
     /**
      * Constructor class
-     * 
-     * @param Array $optionsArr Array with options from form.
      */
-    public function __construct($optionsArr)
+    public function __construct()
     {
-        $this->_optionsArr = $optionsArr;
     }
 
 
     /**
      * Transform downloaded file structure
      * with images with parameters from options input.
-     * 
+     *
      * @return void
      */
     public function transformImage()
     {
-        var_dump($this->optionsArr);
+        $handle = fopen(Configuration::getTempFilePath(), "r");
 
-        if ($this->optionsArr[1] == true) {
-            if (!file_exists(Configuration::getTempFilePath())) {
-                Logger::logToFile("File: " . Configuration::getTempFilePath() . "don't exist. Exiting. Code 3", "error");
-                exit(3);
+        while (($line = fgets($handle)) !== false) {
+            $line = trim($line);
+            //var_dump($line);
+            list($width, $height) = getimagesize($line);
+            $largerSide = 0;
+            if (($width == $height) || ($width > $height)) {
+                $largerSide = $width;
+            } else {
+                $largerSide = $height;
             }
-            $handle = fopen(Configuration::getTempFilePath(), "r");
-            if (!$handle) {
-                Logger::logToFile("File: " . Configuration::getTempFilePath() . "couldn't be opened. Exiting. Code 4", "error");
-                exit(4);
-            }
-            while (($line = fgets($handle)) !== false) {
-                $line = trim($line);
-                //var_dump($line);
-                list($width, $height) = getimagesize($line);
-                $largerSide = 0;
-                if (($width == $height) || ($width > $height)) {
-                    $largerSide = $width;
-                } else {
-                    $largerSide = $height;
-                }
 
-                $CImageLibCallURL = "localhost" . DIRECTORY_SEPARATOR . "classes" . DIRECTORY_SEPARATOR 
+            $CImageLibCallURL = "localhost" . DIRECTORY_SEPARATOR . "classes" . DIRECTORY_SEPARATOR
                 . "imgd.php?src=$line&w=$largerSide&h=$largerSide";
-                $filedataTransformed = file_get_contents($CImageLibCallURL);
-                $tranformedImagesFilePath =  $line;
-                //var_dump($tranformedImagesFilePath);
-                file_put_contents($tranformedImagesFilePath, $filedataTransformed);
-            }
-            //fopen(Configuration::getTempFilePath(), "w");
+            $filedataTransformed = file_get_contents($CImageLibCallURL);
+            $tranformedImagesFilePath =  $line;
+            //var_dump($tranformedImagesFilePath);
+            file_put_contents($tranformedImagesFilePath, $filedataTransformed);
         }
+        //fopen(Configuration::getTempFilePath(), "w");
+        
 
 
 
