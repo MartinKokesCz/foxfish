@@ -23,15 +23,19 @@
  */
 class DownloadManager
 {
-    private $_downloadsFolder;
+    private $downloadsFolder;
+    private $tmpFolder;
+    private $tmpFile;
     
     /**
      * Constructor class
      */
     public function __construct()
     {
-        $this->_downloadsFolder = getenv("DOWNLOADS_DATA_FOLDER")
+        $this->downloadsFolder = getenv("DOWNLOADS_DATA_FOLDER")
         . DIRECTORY_SEPARATOR . "download" . "-" . date("Y-m-d-H_m-i-s");
+        $this->tmpFolder = getenv("TMP_FOLDER");
+        $this->tmpFile = getenv("TMP_FILE");
     }
 
     /**
@@ -52,7 +56,7 @@ class DownloadManager
                     // remove file name from the path
                     $folderpath = str_replace($filename, "", $filepath);
 
-                    $downloadPath = $this->_downloadsFolder . $folderpath;
+                    $downloadPath = $this->downloadsFolder . $folderpath;
                     mkdir($downloadPath, 0777, true);
                     // Download image from formatted URL
                     $filedata = file_get_contents($URL);
@@ -60,8 +64,12 @@ class DownloadManager
                     $outputFilePath = $downloadPath . $filename;
                     file_put_contents($outputFilePath, $filedata);
                     // Write local image path to a file
-                    //$formattedTextInput = $outputFilePath . PHP_EOL;
-                    //file_put_contents(Configuration::getTempFilePath(), $formattedTextInput, FILE_APPEND);
+                    $formattedTextInput = $outputFilePath . PHP_EOL;
+                    var_dump($this->tmpFile);
+                    if (!file_exists($this->tmpFile)) {
+                        touch($this->tmpFile);
+                    }
+                    file_put_contents($this->tmpFile, $formattedTextInput, FILE_APPEND);
                 }
                 fclose($handle);
             }

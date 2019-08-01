@@ -2,3 +2,4 @@ upload-*
 source/*
 !source/example.txt
 vendor/*
+downloads/*
