@@ -26,6 +26,7 @@ class DownloadManager
     private $downloadsFolder;
     private $tmpFolder;
     private $tmpFile;
+    private $transformFolder;
     
     /**
      * Constructor class
@@ -36,6 +37,7 @@ class DownloadManager
         . DIRECTORY_SEPARATOR . "download" . "-" . date("Y-m-d-H_m-i-s");
         $this->tmpFolder = getenv("TMP_FOLDER");
         $this->tmpFile = getenv("TMP_FILE");
+        $this->transformFolder = getenv("TRANSFORM_FOLDER");
     }
 
     /**
@@ -63,16 +65,29 @@ class DownloadManager
                     // Write the downloaded image to local file
                     $outputFilePath = $downloadPath . $filename;
                     file_put_contents($outputFilePath, $filedata);
+
+                    var_dump($outputFilePath);
+                    //var_dump($this->transformFolder);
+                    $call = "http://localhost/foxfish/classes/imgd.php?src=$outputFilePath&fill-to-fit=006600";
+                    $transformedData = file_get_contents($call);
+                    file_put_contents($this->transformFolder.$outputFilePath, $transformedData);
+
                     // Write local image path to a file
-                    $formattedTextInput = $outputFilePath . PHP_EOL;
-                    var_dump($this->tmpFile);
-                    if (!file_exists($this->tmpFile)) {
-                        touch($this->tmpFile);
-                    }
-                    file_put_contents($this->tmpFile, $formattedTextInput, FILE_APPEND);
+                    //$formattedTextInput = $outputFilePath . PHP_EOL;
+                    //if (!file_exists($this->tmpFile)) {
+                    //    touch($this->tmpFile);
+                    //}
+                    //file_put_contents($this->tmpFile, $formattedTextInput, FILE_APPEND);
                 }
                 fclose($handle);
             }
         }
     }
+
+    private function transform($urlTransform)
+    {
+        
+    }
+
+
 }
