@@ -11,7 +11,7 @@ if (!file_exists("./imgd.php")) {
     $imgdDataTemp = file_get_contents(CIMAGE_URL);
 
     //$imgDataRemoteEnabled = str_replace("//'remote_allow'", "'remote_allow'", $imgdDataTemp);
-    file_put_contents("imgd.php", $imgDataRemoteEnabled);
+    //file_put_contents("imgd.php", $imgDataRemoteEnabled);
 
     //unlink('imgdTemp.php');
 }
