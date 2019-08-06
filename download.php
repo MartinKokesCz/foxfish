@@ -16,7 +16,7 @@ if (!file_exists("./imgd.php")) {
     //unlink('imgdTemp.php');
 }
 
-$counter;
+$counter = 0;
 
 if (file_exists(FILEPATH_IMAGE_URLS)) {
     echo "\n\n===Starting===\n\n";
