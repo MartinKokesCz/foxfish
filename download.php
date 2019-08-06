@@ -86,7 +86,7 @@ if (file_exists(FILEPATH_IMAGE_URLS)) {
             //echo "Downloading transformed: $transformedURL\n";
             $uploadfilepathTransformed = $uploadpath . $filename;
             file_put_contents($uploadfilepathTransformed, $filedataTransformed);
-            $counter++
+            $counter++;
         }
         fclose($handle);
     } else {
