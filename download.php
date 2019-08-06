@@ -49,7 +49,12 @@ if (file_exists(FILEPATH_IMAGE_URLS)) {
 
             $uploadpath = __DIR__ . DIRECTORY_SEPARATOR . $uploadFolder . $folderpath;
             // true - recursively
-            mkdir($uploadpath, 0777, true);
+            $successMkDir = mkdir($uploadpath, 0777, true);
+            if (!$successMkDir) {
+                echo "Dir creation failed: $uploadpath";
+                file_put_contents("badFolderd.txt");
+                continue;
+            }
             //echo "Creating folder: $uploadpath\n";
 
             // Download image from formatted URL
