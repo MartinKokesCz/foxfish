@@ -52,7 +52,7 @@ if (file_exists(FILEPATH_IMAGE_URLS)) {
             $successMkDir = mkdir($uploadpath, 0777, true);
             if (!$successMkDir) {
                 echo "Dir creation failed: $uploadpath";
-                file_put_contents("badFolderd.txt");
+                file_put_contents("badFolders.txt", $uploadpath.PHP_EOL, FILE_APPEND);
                 continue;
             }
             //echo "Creating folder: $uploadpath\n";
@@ -60,7 +60,7 @@ if (file_exists(FILEPATH_IMAGE_URLS)) {
             // Download image from formatted URL
             $filedata = file_get_contents($URL);
             if (!$filedata) {
-                file_put_contents("badFiles.txt", $URL, FILE_APPEND);
+                file_put_contents("badFiles.txt", $URL.PHP_EOL, FILE_APPEND);
                 echo "Retrying...".PHP_EOL;
                 for ($i=0; $i <= 20; $i++) { 
                     $filedata = file_get_contents($URL);
