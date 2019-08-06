@@ -27,7 +27,7 @@ if (file_exists(FILEPATH_IMAGE_URLS)) {
         while (($line = fgets($handle)) !== false) {
 
             if ($counter % 1000 == 0) {
-                echo $counter." files processed.";
+                echo $counter." files processed".PHP_EOL;
             }
 
 
