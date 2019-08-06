@@ -54,11 +54,20 @@ if (file_exists(FILEPATH_IMAGE_URLS)) {
 
             // Download image from formatted URL
             $filedata = file_get_contents($URL);
-            if ($filedata == null) {
-                echo "Image empty! Skipping download and reversing!".PHP_EOL.PHP_EOL;
-                rmdir($uploadpath);
-                continue;
+            if (!$filedata) {
+                file_put_contents("badFiles.txt", $URL, FILE_APPEND);
+                echo "Retrying...".PHP_EOL;
+                for ($i=0; $i <= 20; $i++) { 
+                    $filedata = file_get_contents($URL);
+                }
+                if ($filedata == null) {
+                    echo "Image empty: $URL Skipping download and reversing!".PHP_EOL;
+                    rmdir($uploadpath);
+                    continue;
+                }
             }
+
+            
             //echo "Downloaded: $URL\n";
 
             // Write the downloaded image to local file
