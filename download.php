@@ -10,7 +10,7 @@ require_once "config.php";
 if (!file_exists("./imgd.php")) {
     $imgdDataTemp = file_get_contents(CIMAGE_URL);
 
-    $imgDataRemoteEnabled = str_replace("//'remote_allow'", "'remote_allow'", $imgdDataTemp);
+    //$imgDataRemoteEnabled = str_replace("//'remote_allow'", "'remote_allow'", $imgdDataTemp);
     file_put_contents("imgd.php", $imgDataRemoteEnabled);
 
     //unlink('imgdTemp.php');
@@ -45,13 +45,18 @@ if (file_exists(FILEPATH_IMAGE_URLS)) {
             echo "Creating folder: $uploadpath\n";
 
             // Download image from formatted URL
-            echo "Downloading : $URL\n";
             $filedata = file_get_contents($URL);
+            if ($filedata == null) {
+                echo "Image empty! Skipping download and reversing!".PHP_EOL.PHP_EOL;
+                rmdir($uploadpath);
+                continue;
+            }
+            echo "Downloaded: $URL\n";
 
             // Write the downloaded image to local file
             $uploadfilepath = $uploadpath  . $filename;
-            echo "Uploads filepath: $uploadfilepath\n";
             file_put_contents($uploadfilepath, $filedata);
+            echo "Uploads filepath: $uploadfilepath\n";
 
             // Dimensions check (calculate dimensions to make square)
             list($width, $height) = getimagesize($uploadfilepath);
@@ -65,13 +70,13 @@ if (file_exists(FILEPATH_IMAGE_URLS)) {
             echo "File downloaded!\n\n";
 
             $localURL = "http://localhost/foxfish/" . $uploadFolder . $filepath;
-            echo $localURL;
+            echo $localURL.PHP_EOL;
 
             $transformedURL = "http://localhost/foxfish/imgd.php?src=$localURL&w=$largerSide&h=$largerSide&fill-to-fit=ffffff";
 
             $filedataTransformed = file_get_contents($transformedURL);
-            echo "Downloading transformed : $transformedURL\n";
-            $uploadfilepathTransformed = $uploadpath . "transformed-"  . $filename;
+            echo "Downloading transformed: $transformedURL\n";
+            $uploadfilepathTransformed = $uploadpath . $filename;
             file_put_contents($uploadfilepathTransformed, $filedataTransformed);
         }
 
